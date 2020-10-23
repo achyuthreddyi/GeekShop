@@ -2,7 +2,8 @@
   "name": "geekshopmern",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
