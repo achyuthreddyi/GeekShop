@@ -2,6 +2,7 @@ import express from 'express'
 import  dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
+import {errorHandler, notFound} from './middleware/errorMiddleware.js'
 // const cors = require('cors')
 
 //routers
@@ -21,6 +22,11 @@ app.get('/', (req, res) =>{
 })
 
 app.use('/api/products', productRoute )
+
+//FIXME: why are these two implemented
+app.use(notFound)
+
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 5000 
