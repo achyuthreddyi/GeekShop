@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import Rating from '../components/Rating'
-import Axios from 'axios'
+import { listProductsDetails } from '../actions/productActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+
 
 const ProductScreen = ({match}) => {
 
-    const [product, setProduct] = useState({})
+    const dispatch = useDispatch()  
+      
+    const productDetails = useSelector(state => state.productDetails)
+    const { loading, product, error } = productDetails
 
     useEffect( () =>{
-        const fetchProduct = async () =>{
-            console.log("geting here ");
-            const { data } = await Axios.get(`/api/products/${match.params.id}`)
-            setProduct(data)
-        }    
-        fetchProduct() 
-            
-    },[match])
+        dispatch(listProductsDetails(match.params.id))            
+    },[dispatch, match])
 
-   
+
     return (
         <>
             <Link className='btn btn-dark my-3' to='/'> <AiOutlineArrowLeft/> GoBack</Link>
-            <Row>
+
+            {loading ? <Loader />: error? <Message variant ='danger'>{error}</Message> :
+            (  
+                <Row>
                 <Col md={6}>
                     <Image src={product.image} alt={product.name} fluid />
                 </Col>
@@ -43,6 +47,7 @@ const ProductScreen = ({match}) => {
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
+                {/* add to cart stuff */}
                 <Col md={3}>
                     <Card>
                         <ListGroup variant='flush'>
@@ -77,7 +82,11 @@ const ProductScreen = ({match}) => {
                         </ListGroup>
                     </Card>
                 </Col>
-            </Row>
+            </Row>                   
+            )
+            }
+            
+            
         </>
     )
 }

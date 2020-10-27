@@ -3,8 +3,7 @@ import  dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
 import {errorHandler, notFound} from './middleware/errorMiddleware.js'
-// const cors = require('cors')
-
+import cors from 'cors'
 //routers
 // const productRoute = require('./routes/productRoute')
 import productRoute from './routes/productRoute.js'
@@ -15,7 +14,7 @@ connectDB()
 const app = express()
 
 // middleware
-// app.use(cors())
+app.use(cors())
 
 app.get('/', (req, res) =>{
     res.send('api is running')
