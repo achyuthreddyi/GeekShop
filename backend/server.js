@@ -6,7 +6,8 @@ import {errorHandler, notFound} from './middleware/errorMiddleware.js'
 import cors from 'cors'
 //routers
 // const productRoute = require('./routes/productRoute')
-import productRoute from './routes/productRoute.js'
+import productRoutes from './routes/productRoute.js'
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config() 
 connectDB()
@@ -15,12 +16,15 @@ const app = express()
 
 // middleware
 app.use(cors())
+app.use(express.json())
 
 app.get('/', (req, res) =>{
     res.send('api is running')
 })
 
-app.use('/api/products', productRoute )
+app.use('/api/products', productRoutes )
+
+app.use('/api/users', userRoutes)
 
 //FIXME: why are these two implemented
 app.use(notFound)
