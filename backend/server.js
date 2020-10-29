@@ -5,7 +5,6 @@ import connectDB from './config/db.js'
 import {errorHandler, notFound} from './middleware/errorMiddleware.js'
 import cors from 'cors'
 //routers
-// const productRoute = require('./routes/productRoute')
 import productRoutes from './routes/productRoute.js'
 import userRoutes from './routes/userRoutes.js'
 

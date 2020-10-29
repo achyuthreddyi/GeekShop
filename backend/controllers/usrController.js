@@ -1,4 +1,4 @@
-import Product from '../models/productModel.js'
+import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import asyncHandler from 'express-async-handler'
 
@@ -16,7 +16,7 @@ const authUser = asyncHandler(async(req, res) => {
       _id: user._id,
       name: user.name,
       isAdmin:user.isAdmin,
-      token: null
+      token: generateToken(user._id)
     })    
   }else{
     res.status(401)
