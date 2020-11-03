@@ -3,15 +3,13 @@ import User from '../models/userModel.js'
 import asyncHandler from 'express-async-handler'
 
 
-// @desc    Auth the user & get the token
+// @desc    Authenticate the user & get the token
 // @route   POST /api/users/login
 // @access  Public 
 const authUser = asyncHandler(async(req, res) => {
   const {email, password} = req.body
-  console.log(req.body);
-  console.log('in the controller file',email, password);
-
   const user = await User.findOne({email})
+  console.log(`user from the database fetched`, user);
 
   if(user && (await user.matchPassword(password))){    
     res.json({
@@ -52,6 +50,7 @@ const registerUser = asyncHandler(async(req, res) => {
       name: user.name,
       email: user.email,
       isAdmin:user.isAdmin,
+      token: generateToken(user._id)
     })
   }else{
     res.status(400)

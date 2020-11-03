@@ -29,13 +29,11 @@ userSchema.methods.matchPassword = async function (enteredPassword){
 }
 
 userSchema.pre('save', async function (next){
-
-    if(!this.isModified('password')){
-        
+    //simple check to do if password field is not changed
+    if(!this.isModified('password')){        
         next()
-    }
-
-    const salt = await bcrypt.genSalt(10)
+    }    
+    const salt = await bcrypt.genSalt(10)   
     this.password = await bcrypt.hash(this.password, salt)
 })
 
