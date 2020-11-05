@@ -1,7 +1,11 @@
 import Axios from "axios"
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS } from "../constants/userConstants"
+import { USER_LOGIN_FAIL, 
+  USER_LOGIN_REQUEST, 
+  USER_LOGIN_SUCCESS,
+  USER_LOGOUT} from "../constants/userConstants"
 
 export const login = (email, password) => async(dispatch, getState) =>{
+  console.log('in the dispatch of the user actions', dispatch);
   try {
     dispatch({
       type: USER_LOGIN_REQUEST
@@ -31,7 +35,14 @@ export const login = (email, password) => async(dispatch, getState) =>{
           error.response.data.message
             ? error.response.data.message
             : error.message
-      })
-    
+      })   
   }
+}
+
+export const logout = ()=> async (dispatch) =>{
+  console.log(`in the logout of the user Action file of the a`, dispatch);
+  localStorage.removeItem('userInfo')
+  dispatch({
+    type: USER_LOGOUT
+  })
 }

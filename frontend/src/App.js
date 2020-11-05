@@ -12,7 +12,6 @@ import LoginScreen from './screens/LoginScreen'
 const App = () => {
   return (
     <Router>
-
       <Header/>
       <main className="py-3">
         <Container>          
@@ -22,11 +21,8 @@ const App = () => {
           <Route path='/cart/:id?' component={ CartScreen } />
         </Container>        
       </main>      
-      <Footer />
- 
-     
-    </Router>
-  
+      <Footer />     
+    </Router>  
   );
 }
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,15 +21,12 @@ const LoginScreen = ({ location, history }) => {
   console.log('redirect in the login screen ', redirect);
 
   useEffect(() => {
-    if(userInfo){
-      console.log(`user info in hte use Effect `, userInfo);
+    if (userInfo) {
       history.push(redirect)
-      console.log(`in the use Effect`, redirect);
-    }   
+    }
   }, [history, userInfo, redirect])
-  console.log('history of the jsdlfj', history);
 
-  const submitHandler = (e) =>{
+  const submitHandler = (e) => {
     e.preventDefault()
     // dispatch the login
     dispatch(login(email, password))
@@ -46,22 +43,22 @@ const LoginScreen = ({ location, history }) => {
 
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>
-          <Form.Control 
-          type='email' 
-          placeholder='Enter Email' 
-          value={email}
-          onChange = {(e) => setEmail(e.target.value)}
+          <Form.Control
+            type='email'
+            placeholder='Enter Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           >
           </Form.Control>
         </Form.Group>
 
         <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
-          <Form.Control 
-          type='password' 
-          placeholder='Enter password' 
-          value={password}
-          onChange = {(e) => setPassword(e.target.value)}
+          <Form.Control
+            type='password'
+            placeholder='Enter password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           >
           </Form.Control>
         </Form.Group>
@@ -71,15 +68,15 @@ const LoginScreen = ({ location, history }) => {
 
       <Row className='py-3'>
         <Col>
-          New Customer ? 
-          <Link to={ redirect 
+          New Customer ?
+          <Link to={redirect
             ? `/register?redirect=${redirect}`
-            :`/register`}> 
-            Register             
+            : `/register`}>
+            Register
             </Link>
         </Col>
       </Row>
-      
+
     </FormContainer>
   )
 }
