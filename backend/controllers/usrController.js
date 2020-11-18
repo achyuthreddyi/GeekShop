@@ -9,7 +9,7 @@ import asyncHandler from 'express-async-handler'
 const authUser = asyncHandler(async(req, res) => {
   const {email, password} = req.body
   const user = await User.findOne({email})
-  console.log(`user from the database fetched`, user);
+  console.log(`user from the database fetched in the authUser function`, user);
 
   if(user && (await user.matchPassword(password))){    
     res.json({

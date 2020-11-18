@@ -25,7 +25,7 @@ app.use('/api/products', productRoutes )
 
 app.use('/api/users', userRoutes)
 
-//FIXME: why are these two implemented
+//FIXME: why are these two implemented SOLVED
 app.use(notFound)
 
 app.use(errorHandler)
