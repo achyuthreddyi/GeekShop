@@ -25,20 +25,15 @@ const CartScreen = ({match, location, history}) => {
   const CheckOutHandler = () =>{
     history.push('/login?redirect=shipping')
 
-  }
-
-  
+  }  
 
   useEffect(() =>{    
     if(productId) {
-      console.log('inside the useEffect funstion ');
+      console.log('inside the useEffect function ');
       dispatch(addToCart(productId, quantity))
     }  
-  }, [dispatch, productId, quantity])
-  
-  console.log('inside the cart screen',quantity);
-
-  // const dispatch = useDispatch(function)
+  }, [dispatch, productId, quantity])  
+ 
   return (
     <Row>
       <Col md = {8}>
