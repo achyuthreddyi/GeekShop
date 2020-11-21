@@ -10,11 +10,13 @@ import { USER_LOGIN_FAIL,
   USER_PROFILE_REQUEST,
   USER_PROFILE_SUCCESS,
   USER_PROFILE_FAIL,
+  USER_PROFILE_RESET,  
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
 
 } from "../constants/userConstants"
+import {MY_ORDER_DETAILS_RESET} from "../constants/orderConstants"
 
 export const login = (email, password) => async(dispatch, getState) =>{
   console.log('in the dispatch of the user actions', dispatch);
@@ -183,5 +185,11 @@ export const logout = ()=> async (dispatch) =>{
   })
   dispatch({
     type: USER_REGISTER_LOGOUT
+  })
+  dispatch({
+    type: USER_PROFILE_RESET
+  })
+  dispatch({
+    type: MY_ORDER_DETAILS_RESET
   })
 }
