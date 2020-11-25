@@ -14,8 +14,12 @@ import { USER_LOGIN_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
-
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_RESET
 } from "../constants/userConstants"
+
 import {MY_ORDER_DETAILS_RESET} from "../constants/orderConstants"
 
 export const login = (email, password) => async(dispatch, getState) =>{
@@ -192,4 +196,42 @@ export const logout = ()=> async (dispatch) =>{
   dispatch({
     type: MY_ORDER_DETAILS_RESET
   })
+  dispatch({
+    type: USER_LIST_RESET
+  })
+}
+
+// get the user list for the admins 
+export const listUsers = () => async(dispatch, getState) =>{  
+  
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST
+    })
+
+    const { userLogin: { userInfo } } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}` 
+      }
+    }
+    const { data } = await axios.get(
+      `/api/users/`, 
+      config)  
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data
+    })     
+     
+  } catch (error) {
+      dispatch({        
+        type: USER_LIST_FAIL,
+        payload: error.response &&
+          error.response.data.message
+            ? error.response.data.message
+            : error.message
+      })   
+  }
 }

@@ -79,9 +79,9 @@ const getUserProfile = asyncHandler(async(req, res) => {
   res.send('success')
    
 })
-// @desc    update user profile
-// @route   PUT /api/users/profile
-// @access  Private 
+// @desc    update the user profile
+// @route   GET /api/users/profile
+// @access  Private/ 
 const updateUserProfile = asyncHandler(async(req, res) => {
   const user = await User.findById(req.user._id)
   if(user){
@@ -90,7 +90,7 @@ const updateUserProfile = asyncHandler(async(req, res) => {
     if(req.body.password){
       user.password = req.body.password
     }    
-
+   
     const updatedUser = await user.save()
     res.status(200).json({
       _id: updatedUser._id,
@@ -107,4 +107,12 @@ const updateUserProfile = asyncHandler(async(req, res) => {
   res.send('success')  
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile }
+// @desc    get all users to the admin
+// @route   GET /api/users/
+// @access  Private/Admin
+const getUsers = asyncHandler(async(req, res) => {
+  const users = await User.find({})
+  res.json(users)  
+})
+
+export { authUser, getUserProfile, registerUser, updateUserProfile, getUsers }

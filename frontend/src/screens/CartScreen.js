@@ -29,7 +29,6 @@ const CartScreen = ({match, location, history}) => {
 
   useEffect(() =>{    
     if(productId) {
-      console.log('inside the useEffect function ');
       dispatch(addToCart(productId, quantity))
     }  
   }, [dispatch, productId, quantity])  
