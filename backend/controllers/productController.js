@@ -22,5 +22,42 @@ const getProductById = asyncHandler(async(req,res) =>{
             message: 'Product not found in the database'})
   }  
 })
+// @desc    DELETE single product
+// @route   DELETE / api/products/:id
+// @access  Private/Admin 
+const deleteProductById = asyncHandler(async(req,res) =>{
+  const product = await Product.findById(req.params.id )
+  // TODO: implement only the admin who has uploaded the product can only delete the product
 
-export { getAllProducts, getProductById }
+  if (product){
+    await product.remove() 
+    res.json({
+      message: "product removed from the database"
+    })       
+  }else{
+    res.status(404).json({
+    message: 'Product not found in the database'})
+  }  
+})
+// @desc    Create a product
+// @route   POST / api/products
+// @access  Private/Admin 
+const createProduct = asyncHandler(async(req,res) =>{
+  const product = new Product({
+    name: 'Sample Product',
+    price: 0,
+    user: req.user._id,
+    image: '/images/sample.jpeg',
+    brand: 'SAmple Brand',
+    category: 'Sample Category',
+    countInStock: 0,
+    numReviews: 0,
+    description : 'sample description'
+  })
+
+  const createdProduct = await product.save()
+  res.status(201).json(product)
+
+})
+
+export { getAllProducts, getProductById, deleteProductById, createProduct }
