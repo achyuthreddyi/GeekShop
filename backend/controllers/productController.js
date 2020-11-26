@@ -56,8 +56,50 @@ const createProduct = asyncHandler(async(req,res) =>{
   })
 
   const createdProduct = await product.save()
-  res.status(201).json(product)
+  res.status(201).json(createdProduct)
 
 })
 
-export { getAllProducts, getProductById, deleteProductById, createProduct }
+// @desc    update a product
+// @route   PUT / api/products/:id
+// @access  Private/Admin 
+const updateProduct = asyncHandler(async(req,res) =>{
+
+  const {
+    name,
+    price, 
+    description, 
+    image, 
+    brand, 
+    category, 
+    countInStock} = req.body
+
+  
+
+  const product = await Product.findById(req.params.id)
+
+  if(Product){
+    product.name = name
+    product.price = price
+    product.description = description
+    product.image = image
+    product.brand = brand
+    product.category = category
+    product.countInStock = countInStock    
+
+    const updatedProduct = await product.save()
+    res.json(updatedProduct)
+
+  }else{
+    res.status(404)
+    throw new Error('Product not found in database')
+  }
+
+})
+
+export { getAllProducts, 
+  getProductById, 
+  deleteProductById, 
+  createProduct,
+  updateProduct,
+}
