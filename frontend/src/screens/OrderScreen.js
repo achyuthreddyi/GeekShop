@@ -10,7 +10,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
 
 
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match , history}) => {
   const orderId = match.params.id
 
   const [sdkReady, setSdkReady] = useState(false)
