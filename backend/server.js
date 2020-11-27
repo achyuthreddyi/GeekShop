@@ -31,10 +31,13 @@ app.use('/api/users', userRoutes)
 
 app.use('/api/orders', orderRoutes)
 
+app.use('/api/upload', uploadRoutes)
+
+app.get('/api/config/paypal', (req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
+
 const __dirname = path.resolve() // not present by default if we use esmodule by default
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
-app.get('/api/config/paypal', (req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
 
 //FIXME: why are these two implemented SOLVED
