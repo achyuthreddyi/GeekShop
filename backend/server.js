@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import  dotenv from 'dotenv'
 import colors from 'colors'
@@ -8,6 +9,8 @@ import cors from 'cors'
 import productRoutes from './routes/productRoute.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import uploadRoutes from './routes/uploadRoute.js'
+
 
 dotenv.config() 
 connectDB()
@@ -28,7 +31,11 @@ app.use('/api/users', userRoutes)
 
 app.use('/api/orders', orderRoutes)
 
+const __dirname = path.resolve() // not present by default if we use esmodule by default
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
 app.get('/api/config/paypal', (req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
+
 
 //FIXME: why are these two implemented SOLVED
 app.use(notFound)

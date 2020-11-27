@@ -22,6 +22,7 @@ const getProductById = asyncHandler(async(req,res) =>{
             message: 'Product not found in the database'})
   }  
 })
+
 // @desc    DELETE single product
 // @route   DELETE / api/products/:id
 // @access  Private/Admin 
@@ -39,6 +40,7 @@ const deleteProductById = asyncHandler(async(req,res) =>{
     message: 'Product not found in the database'})
   }  
 })
+
 // @desc    Create a product
 // @route   POST / api/products
 // @access  Private/Admin 
@@ -76,7 +78,7 @@ const updateProduct = asyncHandler(async(req,res) =>{
 
   const product = await Product.findById(req.params.id)
 
-  if(Product){
+  if(product){
     product.name = name
     product.price = price
     product.description = description
