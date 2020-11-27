@@ -39,6 +39,9 @@ const OrderScreen = ({match}) => {
   }
 
   useEffect(() =>{
+    if(!userInfo){
+      history.pushState('/login')
+    }
     const addPayPalScript = async () =>{
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
@@ -125,7 +128,7 @@ const OrderScreen = ({match}) => {
               )}
             </ListGroup.Item>
 
-            { userInfo.isAdmin && order.isPaid && !order.isDelivered &&(
+            { userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered &&(
               <ListGroup.Item>
                 <Button 
                 className='btn btn-block' 
