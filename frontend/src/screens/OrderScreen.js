@@ -5,9 +5,9 @@ import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-b
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { ORDER_PAY_RESET } from '../constants/orderConstants'
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
 
 
 const OrderScreen = ({match}) => {
@@ -23,6 +23,12 @@ const OrderScreen = ({match}) => {
 
   const orderPay = useSelector(state => state.orderPay)  
   const { loading: loadingPay, success: successPay } = orderPay
+
+  const orderDeliver = useSelector(state => state.orderDeliver)  
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+
+  const userLogin = useSelector(state => state.userLogin)  
+  const { userInfo } = userLogin
   
   if(!loading){
     const addDecimals = (num) =>{
@@ -46,8 +52,9 @@ const OrderScreen = ({match}) => {
     }
 
 
-    if(!order || successPay  ){
+    if(!order || successPay || successDeliver){
       dispatch( { type: ORDER_PAY_RESET })
+      dispatch( { type: ORDER_DELIVER_RESET })
       dispatch(getOrderDetails(orderId)) 
     } else if( !order.isPaid){
       if(!window.paypal){
@@ -56,11 +63,15 @@ const OrderScreen = ({match}) => {
         setSdkReady(true)
       }
     }     
-  },[dispatch, order, orderId, successPay,])
+  },[dispatch, order, orderId, successPay, successDeliver])
 
   const successPaymentHandler = (paymentResult) =>{
     console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult))
+  }
+
+  const deliverHandler = () =>{
+    dispatch(deliverOrder(order))
   }
 
 
@@ -113,6 +124,19 @@ const OrderScreen = ({match}) => {
                 <Message variant='danger'>Not Paid</Message>
               )}
             </ListGroup.Item>
+
+            { userInfo.isAdmin && order.isPaid && !order.isDelivered &&(
+              <ListGroup.Item>
+                <Button 
+                className='btn btn-block' 
+                type='button'
+                onClick = {deliverHandler}
+                >
+                  Delver Item
+                </Button>
+              </ListGroup.Item>
+            )}
+
 
             <ListGroup.Item>
               <h2>Order Items</h2>

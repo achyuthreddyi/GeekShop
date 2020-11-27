@@ -75,18 +75,12 @@ const OrderListScreen = ({ history, match }) => {
 
 
                 <td>
-                  <LinkContainer to={`/admin/order/${order._id}`}>
+                  <LinkContainer to={`/order/${order._id}`}>
                     <Button>
                       Details
                     </Button>                  
                   </LinkContainer>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    // onClick={() => deleteHandler(order._id)}
-                    >
-                      <i className="fas fa-trash"></i>
-                  </Button>
+        
                 </td>        
               </tr>
             ))}
