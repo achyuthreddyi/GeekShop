@@ -72,9 +72,7 @@ const updateProduct = asyncHandler(async(req,res) =>{
     image, 
     brand, 
     category, 
-    countInStock} = req.body
-
-  
+    countInStock} = req.body  
 
   const product = await Product.findById(req.params.id)
 

@@ -6,58 +6,75 @@ import { AiOutlineArrowLeft } from 'react-icons/ai'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { getuserProfile, updateUser } from '../actions/userActions'
-import {USER_UPDATE_RESET} from '../constants/userConstants'
+import { listProductsDetails, updateProduct } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+
 
 const ProductEditScreen = ({ match, history }) => {
 
-  const userId = match.params.id
+  const productId = match.params.id
 
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [isAdmin, setisAdmin] = useState(false)
+  const [price, setPrice] = useState(0)
+  const [image, setImage] = useState('')
+  const [brand, setBrand] = useState('')
+  const [category, setCategory] = useState('')
+  const [countInStock, setCountInStock] = useState('')
+  // const [numReviews, setNumReviews] = useState('')
+  const [description, setDescription] = useState('')
 
   const dispatch = useDispatch()
 
-  const userProfile = useSelector(state => state.userProfile)
-  const { loading, error, user } = userProfile
+  const productDetails = useSelector(state => state.productDetails)
+  const { loading, error, product } = productDetails
 
-  const userUpdate = useSelector(state => state.userUpdate)
-  const { 
-    loading: loadingUpdate, 
-    error: errorUpdate, 
-    success: successUpdate  } = userUpdate
+  const productUpdate = useSelector(state => state.productUpdate)
+  const { loading:loadingUpdate, error:errorUpdate, success:successUpdate } = productUpdate
+
 
   useEffect(() => {
     if(successUpdate){
-      dispatch({ type: USER_UPDATE_RESET})
-      history.push('/admin/userlist')
+      dispatch({ type: PRODUCT_UPDATE_RESET })
+      history.push('/admin/productlist')
     }else{
-      if(!user.name || user._id !== userId ){
-        dispatch(getuserProfile(userId))
+      if(!product || !product.name || product._id !== productId ){
+        dispatch(listProductsDetails(productId))
       } else{
-        setName(user.name)
-        setEmail(user.email)
-        setisAdmin(user.isAdmin)
+        setName(product.name)
+        setPrice(product.price)
+        setImage(product.image)
+        setBrand(product.brand)
+        setCategory(product.category)
+        setCountInStock(product.countInStock)
+        setDescription(product.description)
       }
-    }
-  }, [dispatch, history, userId, user, successUpdate])
+    }    
+  }, [dispatch, history, productId, product, successUpdate ])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(updateUser({ _id: userId, name, email, isAdmin}))
+    dispatch(updateProduct({
+      _id: productId,
+      name,
+      price,
+      image,
+      brand,
+      category,
+      countInStock,
+      description
+    }))
   }
 
   return (
     <>
-      <Link to='/admin/userlist' className='btn btn-light my-3'>
+      <Link to='/admin/productlist' className='btn btn-light my-3'>
         <AiOutlineArrowLeft/> GoBack 
       </Link>
 
       <FormContainer>
-        <h1>Edit user</h1>
+        <h1>Edit Product</h1>
         
-        {loading && <Loader />}
+        {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? <Loader /> : error? <Message variant='danger'>{error}</Message>:(
           <Form onSubmit={submitHandler}>
@@ -73,18 +90,73 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId='email'>
-            <Form.Label>Email Address</Form.Label>
+          <Form.Group controlId='price'>
+            <Form.Label>Price</Form.Label>
             <Form.Control
-              type='email'
-              placeholder='Enter Email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type='number'
+              placeholder='Enter Price'
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             >
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId='isadmin'>
+          <Form.Group controlId='image'>
+            <Form.Label>Image</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter Image url '
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            >
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='brand'>
+            <Form.Label>Brand</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter brand'
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+            >
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='category'>
+            <Form.Label>Category</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter Category'
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='countInStock'>
+            <Form.Label>countInStock</Form.Label>
+            <Form.Control
+              type='number'
+              placeholder='Enter countInStock'
+              value={countInStock}
+              onChange={(e) => setCountInStock(e.target.value)}
+            >
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='description'>
+            <Form.Label>description</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            >
+            </Form.Control>
+          </Form.Group>
+
+          {/* <Form.Group controlId='isadmin'>
             <Form.Check
               type="checkbox"
               label="isAdmin"
@@ -92,8 +164,8 @@ const ProductEditScreen = ({ match, history }) => {
               onChange={(e) => setisAdmin(e.target.checked)}
             />
             
-            {/* <Form.Check type="checkbox" label="Check me out" /> */}
-          </Form.Group>          
+            <Form.Check type="checkbox" label="Check me out" />
+          </Form.Group>           */}
 
           <Button type='submit' variant='primary'>Update </Button>
         </Form>
