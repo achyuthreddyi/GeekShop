@@ -6,13 +6,14 @@ import { listProducts } from '../actions/productActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
+import ProductCarousel from '../components/ProductCarousel'
+
 
 
 const Home = ({match}) => {  
 
     const keyword = match.params.keyword
-    const pageNumber = match.params.pageNumber || 1
-    alert(pageNumber)
+    const pageNumber = match.params.pageNumber || 1   
 
     const dispatch = useDispatch()
 
@@ -29,7 +30,9 @@ const Home = ({match}) => {
     
     return (
         <>
+            {!keyword && <ProductCarousel />}
             {products && products.length !==0 &&  <h1>latest Products</h1>}
+
             {loading 
               ? <Loader />
               : error ? <Message variant='success' children={ error}></Message>
