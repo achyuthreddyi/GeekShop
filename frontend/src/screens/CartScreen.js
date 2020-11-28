@@ -17,14 +17,13 @@ const CartScreen = ({match, location, history}) => {
   const cart = useSelector( state => state.cart)
   const { cartItems } = cart
 
-  const removeFromCartHandler = (id) =>{
+  const removeFromCartHandler = (id) =>{   
     dispatch(removeCart(id))
-
   }
 
   const CheckOutHandler = () =>{
     history.push('/login?redirect=shipping')
-
+    localStorage.removeItem('cartItems')
   }  
 
   useEffect(() =>{    
