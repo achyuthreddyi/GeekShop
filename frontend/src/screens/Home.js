@@ -7,8 +7,9 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
-
-
+import Meta from '../components/Meta'
+import { Link } from 'react-router-dom'
+import { AiOutlineArrowLeft } from 'react-icons/ai'
 
 const Home = ({match}) => {  
 
@@ -30,7 +31,8 @@ const Home = ({match}) => {
     
     return (
         <>
-            {!keyword && <ProductCarousel />}
+            <Meta/>
+            {!keyword ? <ProductCarousel />: <Link to='/' className='btn btn-light' > <AiOutlineArrowLeft/>Go Back</Link>}
             {products && products.length !==0 &&  <h1>latest Products</h1>}
 
             {loading 

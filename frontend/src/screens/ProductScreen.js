@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from  'react-helmet'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
@@ -8,6 +9,7 @@ import { listProductsDetails, createProductReview } from '../actions/productActi
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import Meta from '../components/Meta'
 
 // PRODUCT_CREATE_REVIEW_RESET
 
@@ -53,11 +55,17 @@ const ProductScreen = ({history, match}) => {
 
 
     return (
-        <>
+        <>  
+                       
+
             <Link className='btn btn-dark my-3' to='/'> <AiOutlineArrowLeft/> GoBack</Link>
 
             {loading ? <Loader />: error? <Message variant ='danger'>{error}</Message> :
             (  <>
+                <Meta 
+                    title = {product.name}
+                />
+                
                 <Row>
                 <Col md={6}>
                     <Image src={product.image} alt={product.name} fluid />
